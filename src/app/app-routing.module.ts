@@ -1,10 +1,13 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+/** @format */
 
-const routes: Routes = [];
+import { Routes } from '@angular/router';
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+export const routes: Routes = [
+	{
+		path: '',
+		title: 'Daylik',
+		loadComponent: () => {
+			return import('./app.component').then(m => m.AppComponent);
+		}
+	}
+];
