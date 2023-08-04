@@ -22,10 +22,10 @@ export class AppComponent implements OnInit {
       name: 'Данила'
     },
     {
-      name: 'Сережа'
+      name: 'Серёжа'
     },
     {
-      name: 'Алена'
+      name: 'Алёна'
     },
     {
       name: 'Рома'
@@ -66,6 +66,9 @@ export class AppComponent implements OnInit {
     ready: 'bg-rose-400'
   }
 
+  daylikIsStarted: boolean = false;
+  daylikTime: any;
+
   ngOnInit(): void {
     this.memberTeamList = this.memberTeamList.map((memberTeam: any, i: number) => {
       return {
@@ -74,13 +77,44 @@ export class AppComponent implements OnInit {
         state: 'idle'
       }
     });
+
+    this.setTime();
   }
+
+  setTime(): void {
+    let date: Date = new Date();
+    let hh: string | number = date.getHours();
+    let mm: string | number = date.getMinutes();
+    let ss: string | number = date.getSeconds();
+    let session: string = "AM";
+
+    if (hh === 0) {
+      hh = 12;
+    }
+
+    if (hh > 12) {
+      hh = hh - 12;
+      session = "PM";
+    }
+
+    hh = (hh < 10) ? "0" + hh : hh;
+    mm = (mm < 10) ? "0" + mm : mm;
+    ss = (ss < 10) ? "0" + ss : ss;
+
+    this.daylikTime = hh + ":" + mm + ":" + ss + " " + session;
+
+    let t: any = setTimeout(() => {
+      this.setTime()
+    }, 1000);
+  };
 
   onShuffle(): void {
     this.memberTeamList.sort(() => Math.random() - 0.5);
   }
 
   onStart(): void {
+    this.daylikIsStarted = true;
+
     this.memberTeamList = this.memberTeamList.map((memberTeam: any, i: number) => {
       return {
         ...memberTeam,
