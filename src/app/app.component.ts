@@ -44,6 +44,9 @@ export class AppComponent implements OnInit {
 		/** Get team */
 
 		this.setTeam();
+
+		// TODO: Debug
+		// this.daylik.state = 'pending';
 	}
 
 	setTime(): void {

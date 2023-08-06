@@ -30,7 +30,9 @@
 	</section>
 	<section class="flex flex-col gap-4 h-screen w-screen p-4" *ngSwitchDefault>
 		<header class="grid grid-cols-3 gap-4">
-			<div class="flex items-center justify-start gap-4 col-span-1">
+			<div
+				class="flex items-center justify-center md:justify-start gap-4 col-span-3 md:col-span-1"
+			>
 				<svg
 					class="bi bi-heart-fill text-rose-400"
 					xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +49,7 @@
 				<span class="block text-4xl">{{ team.teamName }}</span>
 			</div>
 			<div
-				class="flex items-center justify-center col-span-1 gap-4"
+				class="flex items-center justify-center col-span-3 md:col-span-1 gap-4"
 				[class.invisible]="daylik.state === 'live'"
 			>
 				<button
@@ -91,18 +93,24 @@
 					</svg>
 				</button>
 			</div>
-			<div class="flex items-center justify-end col-span-1">
+			<div
+				class="flex items-center justify-center md:justify-end col-span-3 md:col-span-1"
+			>
 				<time class="block text-4xl">{{ daylikTime }}</time>
 			</div>
 		</header>
 		<hr />
-		<ul class="grid gap-4 grid-cols-6 grid-rows-none h-full w-full">
+		<ul
+			class="grid gap-4 grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] grid-flow-row auto-rows-max grid-rows-none h-full w-full"
+		>
+			<!-- prettier-ignore -->
 			<li
-				class="flex items-center justify-center col-span-1 rounded-2xl relative p-4"
+				class="flex items-center justify-center col-span-1 rounded-2xl relative p-4 aspect-square"
 				*ngFor="let teamMember of team.teamMemberList"
 				[ngClass]="{
-					'bg-sky-400': teamMember.state !== 'pending',
-					'bg-rose-400': teamMember.state === 'pending'
+					'bg-sky-400': teamMember.state === 'idle' || teamMember.state === 'live',
+					'bg-rose-400': teamMember.state === 'pending',
+					'bg-sky-200': teamMember.state === 'done',
 				}"
 				(click)="onTeamMemberChangeState(teamMember)"
 			>
