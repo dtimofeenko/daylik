@@ -134,7 +134,6 @@
 						</svg>
 					</button>
 				</ng-container>
-				<span class="absolute bottom-0 opacity-20">{{ teamMember.state }}</span>
 				<ng-container [ngSwitch]="teamMember.state">
 					<span class="text-4xl text-white" *ngSwitchCase="'pending'">???</span>
 					<span class="text-2xl text-white" *ngSwitchDefault>

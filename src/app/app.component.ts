@@ -17,6 +17,7 @@ interface TeamMember {
 	id: number;
 	name: string;
 	image: string | null;
+	absent: boolean;
 	state: 'idle' | 'pending' | 'live' | 'done';
 }
 
@@ -80,12 +81,14 @@ export class AppComponent implements OnInit {
 				/** Set ids, set default state */
 
 				// prettier-ignore
-				team.teamMemberList = team.teamMemberList.map((teamMember: TeamMember, i: number) => {
-          return {
-            ...teamMember,
-            id: i,
-            state: 'idle'
-          };
+				team.teamMemberList = team.teamMemberList
+          .filter((teamMember: TeamMember) => !teamMember.absent)
+          .map((teamMember: TeamMember, i: number) => {
+            return {
+              ...teamMember,
+              id: i,
+              state: 'idle'
+            };
         });
 
 				this.team = team;

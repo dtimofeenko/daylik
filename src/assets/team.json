@@ -2,58 +2,76 @@
   "teamName": "Daylik KW",
   "teamMemberList": [
     {
-      "name": "Стас"
+      "name": "Стас",
+      "absent": true
     },
     {
-      "name": "Денис"
+      "name": "Денис",
+      "absent": false
     },
     {
-      "name": "Дима"
+      "name": "Дима",
+      "absent": false
     },
     {
-      "name": "Ирина"
+      "name": "Ирина",
+      "absent": true
     },
     {
-      "name": "Данила"
+      "name": "Данила",
+      "absent": false
     },
     {
-      "name": "Серёжа"
+      "name": "Серёжа",
+      "absent": true
     },
     {
-      "name": "Алёна"
+      "name": "Алёна",
+      "absent": false
     },
     {
-      "name": "Рома"
+      "name": "Рома",
+      "absent": false
     },
     {
-      "name": "Алина"
+      "name": "Алина",
+      "absent": true
     },
     {
-      "name": "Егор"
+      "name": "Егор",
+      "absent": true
     },
     {
-      "name": "Ярослав"
+      "name": "Ярослав",
+      "absent": false
     },
     {
-      "name": "Владислав"
+      "name": "Владислав",
+      "absent": false
     },
     {
-      "name": "Лиля"
+      "name": "Лиля",
+      "absent": false
     },
     {
-      "name": "Диана"
+      "name": "Диана",
+      "absent": false
     },
     {
-      "name": "Lil Александр"
+      "name": "Lil Александр",
+      "absent": false
     },
     {
-      "name": "Lil Андрей"
+      "name": "Lil Андрей",
+      "absent": false
     },
     {
-      "name": "Владимир"
+      "name": "Владимир",
+      "absent": false
     },
     {
-      "name": "Сергей"
+      "name": "Сергей",
+      "absent": false
     }
   ]
 }
