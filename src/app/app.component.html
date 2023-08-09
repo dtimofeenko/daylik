@@ -135,7 +135,9 @@
 					</button>
 				</ng-container>
 				<ng-container [ngSwitch]="teamMember.state">
-					<span class="text-4xl text-white" *ngSwitchCase="'pending'">???</span>
+					<span class="text-4xl text-white" *ngSwitchCase="'pending'">
+            {{ teamMember.department }}
+          </span>
 					<span class="text-2xl text-white" *ngSwitchDefault>
 						{{ teamMember.name }}
 					</span>

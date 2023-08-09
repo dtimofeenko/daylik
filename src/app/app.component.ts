@@ -19,6 +19,7 @@ interface TeamMember {
 	image: string | null;
 	absent: boolean;
 	state: 'idle' | 'pending' | 'live' | 'done';
+	department: string;
 }
 
 @Component({

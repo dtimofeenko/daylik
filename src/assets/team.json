@@ -3,75 +3,93 @@
   "teamMemberList": [
     {
       "name": "Стас",
-      "absent": true
+      "absent": true,
+      "department": "Manager"
     },
     {
       "name": "Денис",
-      "absent": false
+      "absent": false,
+      "department": "Frontend"
     },
     {
       "name": "Дима",
-      "absent": false
+      "absent": false,
+      "department": "Backend"
     },
     {
       "name": "Ирина",
-      "absent": true
+      "absent": true,
+      "department": "Design"
     },
     {
       "name": "Данила",
-      "absent": false
+      "absent": false,
+      "department": "Backend"
     },
     {
       "name": "Серёжа",
-      "absent": true
+      "absent": true,
+      "department": "Backend"
     },
     {
       "name": "Алёна",
-      "absent": false
+      "absent": false,
+      "department": "QA"
     },
     {
       "name": "Рома",
-      "absent": false
+      "absent": false,
+      "department": "QA"
     },
     {
       "name": "Алина",
-      "absent": true
+      "absent": true,
+      "department": "Design"
     },
     {
       "name": "Егор",
-      "absent": true
+      "absent": true,
+      "department": "Frontend"
     },
     {
       "name": "Ярослав",
-      "absent": false
+      "absent": false,
+      "department": "Backend"
     },
     {
       "name": "Владислав",
-      "absent": false
+      "absent": false,
+      "department": "Backend"
     },
     {
       "name": "Лиля",
-      "absent": false
+      "absent": false,
+      "department": "QA"
     },
     {
       "name": "Диана",
-      "absent": false
+      "absent": false,
+      "department": "QA"
     },
     {
       "name": "Lil Александр",
-      "absent": false
+      "absent": false,
+      "department": "QA"
     },
     {
       "name": "Lil Андрей",
-      "absent": false
+      "absent": false,
+      "department": "QA"
     },
     {
       "name": "Владимир",
-      "absent": false
+      "absent": false,
+      "department": "???"
     },
     {
       "name": "Сергей",
-      "absent": false
+      "absent": false,
+      "department": "???"
     }
   ]
 }
