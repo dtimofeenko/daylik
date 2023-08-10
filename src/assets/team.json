@@ -84,12 +84,12 @@
     {
       "name": "Владимир",
       "absent": false,
-      "department": "???"
+      "department": "Backend"
     },
     {
       "name": "Сергей",
-      "absent": false,
-      "department": "???"
+      "absent": true,
+      "department": "Data Analyst"
     }
   ]
 }

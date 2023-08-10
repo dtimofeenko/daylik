@@ -4,31 +4,56 @@
 <!-- https://flexiple.com/javascript/javascript-clock/ -->
 
 <ng-container [ngSwitch]="daylik.state">
-	<!-- prettier-ignore -->
-	<section class="flex items-center justify-center gap-4 h-screen w-screen p-4" *ngSwitchCase="'idle'">
-    <div class="flex flex-col items-center justify-center gap-8">
-      <time class="block text-8xl">{{ daylikTime }}</time>
-      <button
-        class="flex items-center justify-center bg-sky-400 text-white rounded-full p-4"
-        type="button"
-        (click)="onDaylikChangeState()"
-      >
-        <svg
-          class="bi bi-play-fill"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"
-          />
-        </svg>
-      </button>
-    </div>
+	<section
+		class="flex items-center justify-center gap-4 h-screen w-screen bg-white p-4"
+		*ngSwitchCase="'idle'"
+	>
+		<div class="flex flex-col items-center justify-center gap-8">
+			<time class="block text-8xl">{{ daylikTime }}</time>
+			<div class="flex items-center justify-center gap-4">
+				<button
+					class="flex items-center justify-center bg-sky-400 text-white rounded-full p-4"
+					type="button"
+					(click)="onDaylikToggleSettings(true)"
+				>
+					<svg
+						class="bi bi-gear-fill"
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						fill="currentColor"
+						viewBox="0 0 16 16"
+					>
+						<path
+							d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"
+						/>
+					</svg>
+				</button>
+				<button
+					class="flex items-center justify-center bg-sky-400 text-white rounded-full p-4"
+					type="button"
+					(click)="onDaylikChangeState()"
+				>
+					<svg
+						class="bi bi-play-fill"
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						fill="currentColor"
+						viewBox="0 0 16 16"
+					>
+						<path
+							d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"
+						/>
+					</svg>
+				</button>
+			</div>
+		</div>
 	</section>
-	<section class="flex flex-col gap-4 h-screen w-screen p-4" *ngSwitchDefault>
+	<section
+		class="flex flex-col gap-4 h-screen w-screen bg-white p-4"
+		*ngSwitchDefault
+	>
 		<header class="grid grid-cols-3 gap-4">
 			<div
 				class="flex items-center justify-center md:justify-start gap-4 col-span-3 md:col-span-1"
@@ -145,10 +170,79 @@
 			</li>
 		</ul>
 	</section>
-	<!-- prettier-ignore -->
-	<section class="flex items-center justify-center gap-4 h-screen w-screen p-4" *ngSwitchCase="'done'">
-    <div class="flex flex-col items-center justify-center gap-8">
-      <span class="block text-8xl">Have a good day</span>
-    </div>
-  </section>
+	<section
+		class="flex items-center justify-center gap-4 h-screen w-screen bg-white p-4"
+		*ngSwitchCase="'done'"
+	>
+		<div class="flex flex-col items-center justify-center gap-8">
+			<span class="block text-8xl">Have a good day</span>
+		</div>
+		<ng-fireworks
+			class="fixed inset-0"
+			#fireworks="ngFireworks"
+			*ngIf="daylikSettingsForm.controls.fireworks.value"
+			[options]="{ opacity: 1 }"
+		></ng-fireworks>
+	</section>
+	<dialog
+		class="bg-white rounded-2xl"
+		#daylikSettingsModal
+		(close)="onDaylikToggleSettings(false)"
+	>
+		<div class="flex flex-col gap-4 p-4">
+			<div class="block text-6xl">Settings</div>
+			<form
+				class="flex flex-col gap-4"
+				[formGroup]="daylikSettingsForm"
+				(ngSubmit)="onDaylikSubmitSettings()"
+			>
+				<div class="flex flex-col gap-4 border p-4 rounded-2xl hidden">
+					<fieldset class="flex items-center justify-start gap-4">
+						<label for="timer">Timer:</label>
+						<select id="timer" name="timer" formControlName="timer">
+							<option value="no">No</option>
+							<option value="yes">Yes</option>
+							<option value="in-case-of-hurry">In case of hurry</option>
+						</select>
+					</fieldset>
+					<fieldset
+						class="flex items-center justify-start gap-4"
+						*ngIf="daylikSettingsForm.get('timer') as timer"
+						[class.hidden]="timer.value !== 'in-case-of-hurry'"
+					>
+						<label for="case-of-hurry">Hurry up after</label>
+						<input
+							id="case-of-hurry"
+							name="case-of-hurry"
+							type="range"
+							formControlName="timerHurry"
+							min="5"
+							max="20"
+							step="1"
+						/>
+						<time *ngIf="daylikSettingsForm.get('timerHurry') as timerHurry">
+							{{ timerHurry.value }} min.
+						</time>
+					</fieldset>
+				</div>
+				<div class="flex flex-col gap-4 border p-4 rounded-2xl">
+					<fieldset class="flex items-center justify-start gap-4">
+						<input
+							id="fireworks"
+							name="fireworks"
+							type="checkbox"
+							formControlName="fireworks"
+						/>
+						<label for="fireworks">Wanna fireworks?</label>
+					</fieldset>
+				</div>
+				<button
+					class="flex items-center justify-center bg-sky-400 text-white rounded-2xl p-4"
+					type="submit"
+				>
+					Save
+				</button>
+			</form>
+		</div>
+	</dialog>
 </ng-container>

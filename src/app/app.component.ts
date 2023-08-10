@@ -1,11 +1,25 @@
 /** @format */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import type { FireworksDirective } from '@fireworks-js/angular';
+import { NgFireworksModule } from '@fireworks-js/angular';
+import {
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	ReactiveFormsModule
+} from '@angular/forms';
 
 interface Daylik {
 	state: 'idle' | 'pending' | 'live' | 'done';
+}
+
+interface DaylikSettingsForm {
+	timer: FormControl<string>;
+	timerHurry: FormControl<number>;
+	fireworks: FormControl<boolean>;
 }
 
 interface Team {
@@ -26,17 +40,32 @@ interface TeamMember {
 	standalone: true,
 	selector: 'app-root',
 	templateUrl: './app.component.html',
-	imports: [CommonModule]
+	imports: [CommonModule, NgFireworksModule, ReactiveFormsModule]
 })
 export class AppComponent implements OnInit {
+	// prettier-ignore
+	@ViewChild('daylikSettingsModal') daylikSettingsModal: ElementRef<HTMLDialogElement> | undefined;
+
+	@ViewChild('fireworks') fireworks?: FireworksDirective;
+
 	daylik: Daylik = {
 		state: 'idle'
 	};
 	daylikTime: string | undefined;
+	daylikSettingsForm: FormGroup<DaylikSettingsForm>;
 
 	team!: Team;
 
-	constructor(private httpClient: HttpClient) {}
+	constructor(
+		private httpClient: HttpClient,
+		private formBuilder: FormBuilder
+	) {
+		this.daylikSettingsForm = this.formBuilder.group<DaylikSettingsForm>({
+			timer: this.formBuilder.nonNullable.control('no', []),
+			timerHurry: this.formBuilder.nonNullable.control(10, []),
+			fireworks: this.formBuilder.nonNullable.control(false, [])
+		});
+	}
 
 	ngOnInit(): void {
 		/** Start time */
@@ -47,8 +76,14 @@ export class AppComponent implements OnInit {
 
 		this.setTeam();
 
-		// TODO: Debug
-		// this.daylik.state = 'pending';
+		/** Get settings */
+
+		// prettier-ignore
+		const daylikSettings: string | null =  window.localStorage.getItem('daylikSettings');
+
+		if (daylikSettings) {
+			this.daylikSettingsForm.setValue(JSON.parse(daylikSettings));
+		}
 	}
 
 	setTime(): void {
@@ -95,7 +130,7 @@ export class AppComponent implements OnInit {
 				this.team = team;
 
 				// TODO: Debug
-				// this.team.teamMemberList = team.teamMemberList.splice(0, 4);
+				// this.team.teamMemberList = team.teamMemberList.splice(0, 1);
 			},
 			error: (error: any) => console.log(error)
 		});
@@ -172,5 +207,20 @@ export class AppComponent implements OnInit {
 				break;
 			}
 		}
+	}
+
+	onDaylikToggleSettings(toggle: boolean): void {
+		if (toggle) {
+			this.daylikSettingsModal?.nativeElement.showModal();
+		} else {
+			this.daylikSettingsModal?.nativeElement.close();
+		}
+	}
+
+	onDaylikSubmitSettings(): void {
+		this.onDaylikToggleSettings(false);
+
+		// prettier-ignore
+		window.localStorage.setItem('daylikSettings', JSON.stringify(this.daylikSettingsForm.value));
 	}
 }
