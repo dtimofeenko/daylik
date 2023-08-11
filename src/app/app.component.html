@@ -165,6 +165,26 @@
           </span>
 					<span class="text-2xl text-white" *ngSwitchDefault>
 						{{ teamMember.name }}
+            <ng-container *ngIf="daylikSettingsForm.controls.timer.value === 'yes'">
+              <svg
+                class="absolute inset-4"
+                [attr.viewBox]="viewBox"
+                *ngIf="teamMember.state === 'live'"
+              >
+                <circle
+                  class="duration-200"
+                  fill="none"
+                  [attr.r]="R"
+                  [attr.cx]="+square / 2"
+                  [attr.cy]="+square / 2"
+                  [attr.stroke-linecap]="'round'"
+                  [attr.stroke-width]="progress ? progressWidth : 0"
+                  [attr.stroke]="progressColor ? progressColor : '#7dd3fc'"
+                  [attr.stroke-dasharray]="strokeDasharray"
+                  [attr.stroke-dashoffset]="strokeDashoffset"
+                />
+              </svg>
+            </ng-container>
 					</span>
 				</ng-container>
 			</li>
@@ -176,6 +196,12 @@
 	>
 		<div class="flex flex-col items-center justify-center gap-8">
 			<span class="block text-8xl">Have a good day</span>
+			<img
+				class="rounded-2xl"
+				src="assets/kitten-wave-love-you.gif"
+				alt="Kit"
+				*ngIf="daylikSettingsForm.controls.fireworks.value"
+			/>
 		</div>
 		<ng-fireworks
 			class="fixed inset-0"
@@ -196,7 +222,7 @@
 				[formGroup]="daylikSettingsForm"
 				(ngSubmit)="onDaylikSubmitSettings()"
 			>
-				<div class="flex flex-col gap-4 border p-4 rounded-2xl hidden">
+				<div class="flex flex-col gap-4 border p-4 rounded-2xl">
 					<fieldset class="flex items-center justify-start gap-4">
 						<label for="timer">Timer:</label>
 						<select id="timer" name="timer" formControlName="timer">

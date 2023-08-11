@@ -88,7 +88,7 @@
     },
     {
       "name": "Сергей",
-      "absent": true,
+      "absent": false,
       "department": "Data Analyst"
     }
   ]

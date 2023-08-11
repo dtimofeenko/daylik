@@ -56,6 +56,35 @@ export class AppComponent implements OnInit {
 
 	team!: Team;
 
+	t: any;
+	square: number = 180;
+	viewBox: string = '0 0 180 180';
+
+	R = 80; // радиус
+	P = 502.4; // длина окружности
+	P1 = 5.024; // длина 1% окружности
+
+	progress: number = 100; // прогресс в процентах
+	progressWidth: number = 4;
+	progressColor!: string;
+
+	// длина прогресса (с корректировкой на половину толщины линии)
+	progressLength = +(this.P1 * this.progress - +this.progressWidth / 2).toFixed(
+		3
+	);
+
+	// расстояние между отрезками
+	progressOffset = +(this.P - this.progressLength).toFixed(3);
+
+	mapColor!: string;
+	mapWidth: string | number = 4;
+
+	// длина + расстояние между отрезками
+	strokeDasharray: string = `${this.progressLength} ${this.progressOffset}`;
+
+	// смещение прогресса (чтоб начинался сверху)
+	strokeDashoffset: number = +((this.P / 4) * 3 * -1).toFixed(3);
+
 	constructor(
 		private httpClient: HttpClient,
 		private formBuilder: FormBuilder
@@ -111,6 +140,22 @@ export class AppComponent implements OnInit {
 		let t: any = setTimeout(() => this.setTime(), 1000);
 	}
 
+	setTimer(): void {
+		this.t = setTimeout(() => this.setTimer(), 100);
+
+		if (this.progress > 0) {
+			if (this.progress - 1.6 / 10 > 0) {
+				this.progress = this.progress - 1.6 / 10;
+				this.onTeamMemberGetTimer();
+			} else {
+				this.progress = 0;
+				clearTimeout(this.t);
+			}
+		} else {
+			clearTimeout(this.t);
+		}
+	}
+
 	setTeam(): void {
 		this.httpClient.get<Team>('assets/team.json').subscribe({
 			next: (team: Team) => {
@@ -163,6 +208,11 @@ export class AppComponent implements OnInit {
 
 				teamMember.state = 'live';
 
+				if (this.daylikSettingsForm.controls.timer.value === 'yes') {
+					this.progress = 100;
+					this.setTimer();
+				}
+
 				break;
 			}
 			case 'live': {
@@ -185,6 +235,26 @@ export class AppComponent implements OnInit {
 				break;
 			}
 		}
+	}
+
+	onTeamMemberGetTimer(): void {
+		const difference =
+			+this.progressWidth > +this.mapWidth
+				? +this.progressWidth / 2
+				: +this.mapWidth / 2;
+
+		this.R = +this.square / 2 - difference;
+		this.P = 2 * Math.PI * this.R;
+		this.P1 = this.P / 100;
+
+		this.progressLength = +(
+			this.P1 * this.progress -
+			+this.progressWidth / 2
+		).toFixed(3);
+		this.progressOffset = +(this.P - this.progressLength).toFixed(3);
+
+		this.strokeDasharray = `${this.progressLength} ${this.progressOffset}`;
+		this.strokeDashoffset = +((this.P / 4) * 3 * -1).toFixed(3);
 	}
 
 	onDaylikChangeState(): void {
