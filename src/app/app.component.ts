@@ -193,6 +193,8 @@ export class AppComponent implements OnInit {
 	}
 
 	onTeamMemberChangeState(teamMember: TeamMember): void {
+		clearTimeout(this.t);
+
 		switch (teamMember.state) {
 			case 'pending': {
 				// prettier-ignore
