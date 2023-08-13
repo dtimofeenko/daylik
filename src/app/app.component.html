@@ -165,7 +165,7 @@
           </span>
 					<span class="text-2xl text-white" *ngSwitchDefault>
 						{{ teamMember.name }}
-            <ng-container *ngIf="daylikSettingsForm.controls.timer.value === 'yes'">
+            <ng-container *ngIf="daylikSettingsForm.controls.timer.value === 'yes' || daylikSettingsForm.controls.timer.value === 'in-case-of-hurry' && t2Toggle">
               <svg
                 class="absolute inset-4"
                 [attr.viewBox]="viewBox"
@@ -242,7 +242,7 @@
 							name="case-of-hurry"
 							type="range"
 							formControlName="timerHurry"
-							min="5"
+							min="1"
 							max="20"
 							step="1"
 						/>

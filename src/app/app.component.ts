@@ -57,6 +57,10 @@ export class AppComponent implements OnInit {
 	team!: Team;
 
 	t: any;
+	t2: any;
+	t2Value: number = 0;
+	t2Toggle: boolean = false;
+
 	square: number = 180;
 	viewBox: string = '0 0 180 180';
 
@@ -156,6 +160,12 @@ export class AppComponent implements OnInit {
 		}
 	}
 
+	setTimerDaylik(): void {
+		this.t2 = setInterval(() => {
+			this.t2Value++;
+		}, 1000);
+	}
+
 	setTeam(): void {
 		this.httpClient.get<Team>('assets/team.json').subscribe({
 			next: (team: Team) => {
@@ -215,6 +225,21 @@ export class AppComponent implements OnInit {
 					this.setTimer();
 				}
 
+				/** Timer turn on! */
+
+				if (
+					this.daylikSettingsForm.controls.timer.value === 'in-case-of-hurry'
+				) {
+					if (
+						this.t2Value >
+						Number(this.daylikSettingsForm.controls.timerHurry.value) * 60
+					) {
+						this.progress = 100;
+						this.setTimer();
+
+						this.t2Toggle = true;
+					}
+				}
 				break;
 			}
 			case 'live': {
@@ -272,6 +297,8 @@ export class AppComponent implements OnInit {
 				this.team.teamMemberList.forEach((teamMember: TeamMember) => {
 					teamMember.state = 'pending';
 				});
+
+				this.setTimerDaylik();
 				break;
 			}
 
