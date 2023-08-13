@@ -191,6 +191,29 @@ export class AppComponent implements OnInit {
 		});
 	}
 
+	setRandom(): void {
+		// prettier-ignore
+		const teamMemberList: TeamMember[] = this.team.teamMemberList.filter((teamMember: TeamMember) => {
+      return teamMember.state === 'pending';
+    });
+
+		// prettier-ignore
+		const teamMemberRandom: TeamMember = teamMemberList[(teamMemberList.length * Math.random()) | 0];
+
+		if (teamMemberRandom) {
+			this.onTeamMemberChangeState(teamMemberRandom);
+		} else {
+			// prettier-ignore
+			const teamMemberLive: TeamMember | undefined = this.team.teamMemberList.find((teamMember: TeamMember) => {
+        return teamMember.state === 'live';
+      });
+
+			if (teamMemberLive) {
+				this.onTeamMemberChangeState(teamMemberLive);
+			}
+		}
+	}
+
 	onTeamMemberListShuffle(): void {
 		this.team.teamMemberList.sort(() => Math.random() - 0.5);
 	}
