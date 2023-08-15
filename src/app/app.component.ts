@@ -145,17 +145,18 @@ export class AppComponent implements OnInit {
 	}
 
 	setTimer(): void {
-		this.t = setTimeout(() => this.setTimer(), 100);
-
 		if (this.progress > 0) {
 			if (this.progress - 1.6 / 10 > 0) {
 				this.progress = this.progress - 1.6 / 10;
 				this.onTeamMemberGetTimer();
+
+				this.t = setTimeout(() => this.setTimer(), 100);
 			} else {
 				this.progress = 0;
 				clearTimeout(this.t);
 			}
 		} else {
+			this.progress = 0;
 			clearTimeout(this.t);
 		}
 	}
