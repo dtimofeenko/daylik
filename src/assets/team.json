@@ -28,7 +28,7 @@
     },
     {
       "name": "Серёжа",
-      "absent": true,
+      "absent": false,
       "department": "Backend"
     },
     {
@@ -43,7 +43,7 @@
     },
     {
       "name": "Алина",
-      "absent": true,
+      "absent": false,
       "department": "Design"
     },
     {
