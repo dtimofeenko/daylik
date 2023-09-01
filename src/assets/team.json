@@ -48,7 +48,7 @@
     },
     {
       "name": "Егор",
-      "absent": true,
+      "absent": false,
       "department": "Frontend"
     },
     {
@@ -90,6 +90,11 @@
       "name": "Сергей",
       "absent": false,
       "department": "Data Analyst"
+    },
+    {
+      "name": "Павел",
+      "absent": false,
+      "department": "Backend"
     }
   ]
 }
