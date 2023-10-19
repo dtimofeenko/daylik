@@ -95,6 +95,11 @@
       "name": "Павел",
       "absent": false,
       "department": "Backend"
+    },
+    {
+      "name": "Виктория",
+      "absent": false,
+      "department": "QA"
     }
   ]
 }
