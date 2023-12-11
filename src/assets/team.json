@@ -82,11 +82,6 @@
       "department": "QA"
     },
     {
-      "name": "Владимир",
-      "absent": false,
-      "department": "Backend"
-    },
-    {
       "name": "Сергей",
       "absent": false,
       "department": "Data Analyst"
@@ -100,6 +95,11 @@
       "name": "Виктория",
       "absent": false,
       "department": "QA"
+    },
+    {
+      "name": "Наталья",
+      "absent": false,
+      "department": "Design"
     }
   ]
 }
