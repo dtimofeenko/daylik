@@ -1,6 +1,12 @@
 /** @format */
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+	Component,
+	ElementRef,
+	inject,
+	OnInit,
+	ViewChild
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import type { FireworksDirective } from '@fireworks-js/angular';
@@ -11,9 +17,11 @@ import {
 	FormGroup,
 	ReactiveFormsModule
 } from '@angular/forms';
+import { LocalStorageService } from '../core/local-storage.service';
+import { PlatformService } from '../core/platform.service';
 
 interface Daylik {
-	state: 'idle' | 'pending' | 'live' | 'done';
+	state: 'idle' | 'pending' | 'live' | 'done' | 'setup';
 }
 
 interface DaylikSettingsForm {
@@ -25,6 +33,8 @@ interface DaylikSettingsForm {
 interface Team {
 	teamName: string;
 	teamMemberList: TeamMember[];
+	teamDoneText: string;
+	teamDoneImage: string;
 }
 
 interface TeamMember {
@@ -44,9 +54,15 @@ interface TeamMember {
 })
 export class AppComponent implements OnInit {
 	// prettier-ignore
+	private readonly localStorageService: LocalStorageService = inject(LocalStorageService);
+	private readonly platformService: PlatformService = inject(PlatformService);
+
+	// prettier-ignore
 	@ViewChild('daylikSettingsModal') daylikSettingsModal: ElementRef<HTMLDialogElement> | undefined;
 
 	@ViewChild('fireworks') fireworks?: FireworksDirective;
+
+	@ViewChild('preEditable') preEditable?: any;
 
 	daylik: Daylik = {
 		state: 'idle'
@@ -55,6 +71,8 @@ export class AppComponent implements OnInit {
 	daylikSettingsForm: FormGroup<DaylikSettingsForm>;
 
 	team!: Team;
+	teamSetup!: Team;
+	teamSetupRaw!: string;
 
 	t: any;
 	t2: any;
@@ -168,28 +186,27 @@ export class AppComponent implements OnInit {
 	}
 
 	setTeam(): void {
-		this.httpClient.get<Team>('assets/team.json').subscribe({
-			next: (team: Team) => {
-				/** Set ids, set default state */
+		const teamLocalStorage = (): Team | null => {
+			// prettier-ignore
+			const team: string | null = this.localStorageService.getItem('daylikTeam');
 
-				// prettier-ignore
-				team.teamMemberList = team.teamMemberList
-          .filter((teamMember: TeamMember) => !teamMember.absent)
-          .map((teamMember: TeamMember, i: number) => {
-            return {
-              ...teamMember,
-              id: i,
-              state: 'idle'
-            };
-        });
+			if (team) {
+				return JSON.parse(team);
+			}
 
-				this.team = team;
+			return null;
+		};
 
-				// TODO: Debug
-				// this.team.teamMemberList = team.teamMemberList.splice(0, 1);
-			},
-			error: (error: any) => console.log(error)
-		});
+		const teamSaved: Team | null = teamLocalStorage();
+
+		if (teamSaved) {
+			this.teamSetup = teamSaved;
+		} else {
+			this.httpClient.get<Team>('assets/team.json').subscribe({
+				next: (team: Team) => (this.teamSetup = team),
+				error: (error: any) => console.log(error)
+			});
+		}
 	}
 
 	setRandom(): void {
@@ -311,6 +328,17 @@ export class AppComponent implements OnInit {
 	onDaylikChangeState(): void {
 		switch (this.daylik.state) {
 			case 'idle': {
+				this.team = this.teamSetup;
+				this.team.teamMemberList = this.team.teamMemberList
+					.filter((teamMember: TeamMember) => !teamMember.absent)
+					.map((teamMember: TeamMember, i: number) => {
+						return {
+							...teamMember,
+							id: i + 1,
+							state: 'idle'
+						};
+					});
+
 				this.daylik.state = 'pending';
 
 				break;
@@ -345,5 +373,37 @@ export class AppComponent implements OnInit {
 
 		// prettier-ignore
 		window.localStorage.setItem('daylikSettings', JSON.stringify(this.daylikSettingsForm.value));
+	}
+
+	onDaylikInputSetup(): void {
+		this.teamSetupRaw = this.preEditable.nativeElement.innerText;
+	}
+
+	onDaylikSaveSetup(): void {
+		try {
+			const teamSetupRaw: string = this.teamSetupRaw || '';
+
+			this.teamSetup = JSON.parse(teamSetupRaw);
+
+			this.localStorageService.setItem('daylikTeam', teamSetupRaw);
+
+			this.daylik.state = 'idle';
+		} catch (e) {
+			if (this.platformService.isBrowser()) {
+				const window: Window = this.platformService.getWindow();
+
+				window.alert('Oh no, your JSON malformed and I will not saving it');
+			}
+		}
+	}
+
+	onDaylikResetSetup(): void {
+		this.localStorageService.removeItem('daylikTeam');
+
+		this.setTeam();
+
+		setTimeout(() => {
+			this.onDaylikInputSetup();
+		}, 100);
 	}
 }

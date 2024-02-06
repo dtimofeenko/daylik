@@ -1,5 +1,7 @@
 {
   "teamName": "Daylik KW",
+  "teamDoneText": "Have a good day",
+  "teamDoneImage": "./assets/kitten-wave-love-you.gif",
   "teamMemberList": [
     {
       "name": "Стас",
@@ -23,7 +25,7 @@
     },
     {
       "name": "Данила",
-      "absent": false,
+      "absent": true,
       "department": "Backend"
     },
     {

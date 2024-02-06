@@ -6,11 +6,63 @@
 <ng-container [ngSwitch]="daylik.state">
 	<section
 		class="flex items-center justify-center gap-4 h-screen w-screen bg-white p-4"
+		*ngSwitchCase="'setup'"
+	>
+		<div class="flex flex-col w-full h-full relative gap-4">
+			<!-- prettier-ignore -->
+			<pre class="block bg-sky-100 rounded-2xl overflow-auto p-8" #preEditable contenteditable="true" (input)="onDaylikInputSetup()">{{ teamSetup | json }}</pre>
+			<div class="absolute top-8 right-8 text-right rounded-2xl p-4 bg-white">
+				<p class="font-bold">Watch out (!)</p>
+				<hr class="my-4" />
+				<ul>
+					<li>name: string</li>
+					<li>absent: boolean</li>
+					<li>department: string</li>
+				</ul>
+			</div>
+			<div class="flex items-center justify-between gap-4">
+				<button
+					class="flex items-center justify-center bg-sky-400 text-white rounded-2xl flex-1 p-4"
+					type="button"
+					(click)="onDaylikSaveSetup()"
+				>
+					Save
+				</button>
+				<button
+					class="flex items-center justify-center bg-red-400 text-white rounded-2xl p-4"
+					type="button"
+					(click)="onDaylikResetSetup()"
+				>
+					Default
+				</button>
+			</div>
+		</div>
+	</section>
+	<section
+		class="flex items-center justify-center gap-4 h-screen w-screen bg-white p-4"
 		*ngSwitchCase="'idle'"
 	>
 		<div class="flex flex-col items-center justify-center gap-8">
 			<time class="block text-8xl">{{ daylikTime }}</time>
 			<div class="flex items-center justify-center gap-4">
+				<button
+					class="flex items-center justify-center bg-sky-400 text-white rounded-full p-4"
+					type="button"
+					(click)="daylik.state = 'setup'"
+				>
+					<svg
+						class="bi bi-person-fill"
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						fill="currentColor"
+						viewBox="0 0 16 16"
+					>
+						<path
+							d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+						/>
+					</svg>
+				</button>
 				<button
 					class="flex items-center justify-center bg-sky-400 text-white rounded-full p-4"
 					type="button"
@@ -158,7 +210,7 @@
 		>
 			<!-- prettier-ignore -->
 			<li
-				class="flex items-center justify-center col-span-1 rounded-2xl relative p-4 aspect-square"
+				class="flex items-center justify-center col-span-1 rounded-2xl relative p-4 aspect-square text-center"
 				*ngFor="let teamMember of team.teamMemberList"
 				[ngClass]="{
 					'bg-sky-400': teamMember.state === 'idle' || teamMember.state === 'live',
@@ -223,12 +275,12 @@
 		*ngSwitchCase="'done'"
 	>
 		<div class="flex flex-col items-center justify-center gap-8">
-			<span class="block text-8xl">Have a good day</span>
+			<span class="block text-8xl">{{ team.teamDoneText }}</span>
 			<img
 				class="rounded-2xl"
-				src="assets/kitten-wave-love-you.gif"
-				alt="Kit"
+				alt="Image"
 				*ngIf="daylikSettingsForm.controls.fireworks.value"
+				[src]="team.teamDoneImage"
 			/>
 		</div>
 		<ng-fireworks
