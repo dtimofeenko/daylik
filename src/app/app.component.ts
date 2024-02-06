@@ -375,13 +375,19 @@ export class AppComponent implements OnInit {
 		window.localStorage.setItem('daylikSettings', JSON.stringify(this.daylikSettingsForm.value));
 	}
 
+	onDaylikToggleSetup(): void {
+		this.daylik.state = 'setup';
+
+		this.teamSetupRaw = JSON.stringify(this.teamSetup, null, 2);
+	}
+
 	onDaylikInputSetup(): void {
 		this.teamSetupRaw = this.preEditable.nativeElement.innerText;
 	}
 
 	onDaylikSaveSetup(): void {
 		try {
-			const teamSetupRaw: string = this.teamSetupRaw || '';
+			const teamSetupRaw: string = this.teamSetupRaw;
 
 			this.teamSetup = JSON.parse(teamSetupRaw);
 
