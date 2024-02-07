@@ -35,7 +35,7 @@
     },
     {
       "name": "Алёна",
-      "absent": false,
+      "absent": true,
       "department": "QA"
     },
     {
