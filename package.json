@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npx ng serve --port 3010",
+    "start": "npx ng serve --port 3010 --disable-host-check",
     "build": "ng build",
     "deploy": "firebase deploy",
     "watch": "ng build --watch --configuration development",
