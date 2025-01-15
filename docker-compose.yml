@@ -1,0 +1,9 @@
+services:
+  daylik:
+    container_name: daylik-container
+    build: .
+    environment:
+     NODE_ENV: production
+     PORT: 3010
+    network_mode: host
+    # command: ["npm", "run", "start"]
