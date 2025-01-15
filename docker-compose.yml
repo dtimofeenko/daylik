@@ -6,4 +6,5 @@ services:
      NODE_ENV: production
      PORT: 3010
     network_mode: host
+    restart: unless-stopped
     # command: ["npm", "run", "start"]
