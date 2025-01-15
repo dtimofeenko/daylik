@@ -4,104 +4,24 @@
   "teamDoneImage": "./assets/kitten-wave-love-you.gif",
   "teamMemberList": [
     {
-      "name": "Стас",
+      "name": "John Doe",
       "absent": true,
       "department": "Manager"
     },
     {
-      "name": "Денис",
+      "name": "Ivan Pupkin",
       "absent": false,
       "department": "Frontend"
     },
     {
-      "name": "Дима",
+      "name": "James Smith",
       "absent": false,
       "department": "Backend"
     },
     {
-      "name": "Ирина",
-      "absent": false,
-      "department": "Design"
-    },
-    {
-      "name": "Данила",
-      "absent": true,
-      "department": "Backend"
-    },
-    {
-      "name": "Серёжа",
-      "absent": false,
-      "department": "Backend"
-    },
-    {
-      "name": "Алёна",
-      "absent": true,
-      "department": "QA"
-    },
-    {
-      "name": "Рома",
+      "name": "Jane Doe",
       "absent": false,
       "department": "QA"
-    },
-    {
-      "name": "Алина",
-      "absent": false,
-      "department": "Design"
-    },
-    {
-      "name": "Егор",
-      "absent": false,
-      "department": "Frontend"
-    },
-    {
-      "name": "Ярослав",
-      "absent": false,
-      "department": "Backend"
-    },
-    {
-      "name": "Владислав",
-      "absent": false,
-      "department": "Backend"
-    },
-    {
-      "name": "Лиля",
-      "absent": false,
-      "department": "QA"
-    },
-    {
-      "name": "Диана",
-      "absent": false,
-      "department": "QA"
-    },
-    {
-      "name": "Lil Александр",
-      "absent": false,
-      "department": "QA"
-    },
-    {
-      "name": "Lil Андрей",
-      "absent": false,
-      "department": "QA"
-    },
-    {
-      "name": "Сергей",
-      "absent": false,
-      "department": "Data Analyst"
-    },
-    {
-      "name": "Павел",
-      "absent": false,
-      "department": "Backend"
-    },
-    {
-      "name": "Виктория",
-      "absent": false,
-      "department": "QA"
-    },
-    {
-      "name": "Наталья",
-      "absent": false,
-      "department": "Design"
     }
   ]
 }
